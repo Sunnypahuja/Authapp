@@ -9,6 +9,10 @@ const expressSession = require('express-session')({
   secret: 'secret',
   resave: false,
   saveUninitialized: false
+  Cookie: {
+    secure= false,
+    maxAge: 60000
+  }
 });
 
 app.use(bodyParser.json());
@@ -48,6 +52,7 @@ passport.deserializeUser(UserDetails.deserializeUser());
 
 /* routes*/
 const connectEnsureLogin = require('connect-ensure-login');
+const { Cookie } = require('express-session');
 
 app.post('/login', (req, res, next) => {
   passport.authenticate('local',
